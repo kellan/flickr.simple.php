@@ -13,7 +13,7 @@
         ));
         
         foreach($rsp['photos']['photo'] as $photo) {
-		....
+		.....
 	}
 
 */
@@ -31,9 +31,9 @@ class Flickr {
 	}
 	
 	function call_method($method, $args=array(), $sign_call=0) {
-        $args['format'] = 'php_serial';
+		$args['format'] = 'php_serial';
 		$args['api_key'] = $this->api_key;
-        $args['method'] = $method;
+		$args['method'] = $method;
         
 		$base_url = "http://" . $this->api_host . "/services/rest/?";
 		
@@ -88,7 +88,7 @@ class Flickr {
 	function auth_url($frob, $perms='read') {
 		$args = array(
 			'api_key' => $this->api_key,
-        	'frob' => $frob,
+			'frob' => $frob,
 			'perms' => $perms,
 		);
 		$base_url = "http://" . $this->auth_host . "/services/auth/?";
@@ -112,11 +112,11 @@ class Flickr {
 
 		$encoded_params = array();
 
-      	foreach ($args as $k => $v){
-        	$encoded_params[] = urlencode($k).'='.urlencode($v);
-       	}
+		foreach ($args as $k => $v){
+			$encoded_params[] = urlencode($k).'='.urlencode($v);
+		}
 
-       	return $base_url.implode('&', $encoded_params);
+		return $base_url.implode('&', $encoded_params);
 	}
 }
 
