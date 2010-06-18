@@ -19,15 +19,21 @@
 */
 
 class Flickr {
-	function Flickr($api_key, $api_secret='', $api_host='') {
+
+	private $debug = 0;
+
+	function Flickr($api_key, $api_secret='', $api_host='', $debug=0) {
 		$this->api_key = $api_key;
 		$this->api_secret = $api_secret;
+		$this->debug = $debug;
 		if (!$api_host) {
 			$this->api_host = 'api.flickr.com';
 		} else {
 			$this->api_host = $api_host;
 		}
-		$this->auth_host = 'www.flickr.com';	
+		$this->auth_host = 'www.flickr.com';
+
+		$this->_debug("initialized with api key '{$this->api_key}', secret '{$this->api_secret}', talking to '{$this->api_host}'");
 	}
 	
 	function call_method($method, $args=array(), $sign_call=0) {
@@ -39,8 +45,14 @@ class Flickr {
 		
 		$url = $this->_request_url($base_url, $args, $sign_call);
 
+		$this->_debug("request url: {$url}");
+
 		$rsp = file_get_contents($url);
 		$rsp_obj = unserialize($rsp);
+
+		$this->_debug("response content: \n{$rsp}");
+		$this->_debug("response object: \n".print_r($rsp_obj, true));
+
 		if (!$this->ok($rsp_obj)) {
 			return $this->on_error($rsp_obj);
 		} else {
@@ -57,7 +69,12 @@ class Flickr {
 			$a .= $k . $v;
 		}
 
-		return md5($secret.$a);
+		$sig_string = $secret.$a;
+		$sig = md5($sig_string);
+
+		$this->_debug("signature string:\n{$sig_string}\nsignature:\n{$sig}");
+
+		return $sig;
 	}
 	
 	#
@@ -117,6 +134,12 @@ class Flickr {
 		}
 
 		return $base_url.implode('&', $encoded_params);
+	}
+
+	private function _debug($str) {
+		if ($this->debug) {
+			echo "[debug] $str\n";
+		}
 	}
 }
 
