@@ -38,7 +38,7 @@ class Flickr {
 		$base_url = "http://" . $this->api_host . "/services/rest/?";
 		
 		$url = $this->_request_url($base_url, $args, $sign_call);
-
+		
 		$rsp = file_get_contents($url);
 		$rsp_obj = unserialize($rsp);
 		if (!$this->ok($rsp_obj)) {
