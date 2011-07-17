@@ -123,7 +123,7 @@ class Flickr {
 	
 	function _request_url($base_url, $args=array(), $sign_call=0) {
 		
-		if ($args['auth_token'] or $sign_call) {
+		if (isset($args['auth_token']) and $args['auth_token'] or $sign_call) {
 			$args['api_sig'] = $this->sign_args($args, $this->api_secret);
 		}
 
