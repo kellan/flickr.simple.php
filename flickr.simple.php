@@ -27,11 +27,11 @@ class Flickr {
         $this->api_secret = $api_secret;
         $this->debug = $debug;
         if (!$api_host) {
-            $this->api_host = 'api.flickr.com';
+            $this->api_host = 'https://api.flickr.com';
         } else {
             $this->api_host = $api_host;
         }
-        $this->auth_host = 'www.flickr.com';
+        $this->auth_host = 'https://www.flickr.com';
 
         $this->_debug("initialized with api key '{$this->api_key}', secret '{$this->api_secret}', talking to '{$this->api_host}'");
     }
@@ -41,7 +41,7 @@ class Flickr {
         $args['api_key'] = $this->api_key;
         $args['method'] = $method;
         
-        $base_url = "http://" . $this->api_host . "/services/rest/?";
+        $base_url = $this->api_host . "/services/rest/?";
         
         $url = $this->_request_url($base_url, $args, $sign_call);
 
@@ -65,7 +65,7 @@ class Flickr {
     #
     
     function upload_photo($args, $local_photo_path) {
-        $base_url = "http://" . $this->api_host . "/services/upload/";
+        $base_url = $this->api_host . "/services/upload/";
         
         $args['api_key'] = $this->api_key;
         
@@ -129,7 +129,7 @@ class Flickr {
             'frob' => $frob,
             'perms' => $perms,
         );
-        $base_url = "http://" . $this->auth_host . "/services/auth/?";
+        $base_url = $this->auth_host . "/services/auth/?";
         $url = $this->_request_url($base_url, $args, 'sign');
         return $url;
     }
