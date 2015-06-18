@@ -71,7 +71,7 @@ class Flickr {
         
         $args['api_sig'] = $this->sign_args($args, $this->api_secret);
         
-        $args['photo'] = '@'. $local_photo_path;
+        $args['photo'] = curl_file_create($local_photo_path);
                 
         $curl = curl_init( $base_url );
         curl_setopt( $curl, CURLOPT_POST, true );
